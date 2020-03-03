@@ -9,6 +9,10 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const recordsRouter = require('./routes/records');
 
+/** MIDDLEWARE */
+
+const middlewareHeader = require('./middleware/middlewareHeader')
+
 /** INIT */
 const app = express();
 
@@ -20,6 +24,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(middlewareHeader)
 
 /** STATIC FILES*/
 app.use(express.static(path.join(__dirname, 'public')));
