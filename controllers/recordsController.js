@@ -2,7 +2,7 @@ var Records = require('../models/Record')
 
 exports.getRecords = async (req, res, next) => {
   // Schreib hier code um alle records aus der records-Collection zu holen
-  var records = await Records.find()
+  var records = await Records.find({})
   res.status(200).send(records);
 };
 
