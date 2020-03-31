@@ -1,14 +1,14 @@
 var Orders = require('../models/Order')
 
 exports.getOrders = async (req, res, next) => {
-  var orders = await Orders.find()
+  var orders = await Orders.find().populate('record')
   res.status(200).send(orders);
 };
 
 exports.getOrder = async (req, res, next) => {
   const { id } = req.params;
   // Schreib hier code um die Bestellung mit der id aus params aus der orders-Collection zu holen
-  var order = await Orders.findById(id)
+  var order = await Orders.findById(id).populate('record')
   res.status(200).send(order);
 };
 
