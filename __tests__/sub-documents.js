@@ -15,14 +15,14 @@ describe('Sub Documents', () => {
             email: faker.internet.email(),
             password: faker.internet.password(),
             address: {
-                street: faker.address.streetAddress,
-                city: faker.address.city
+                street: faker.address.streetAddress(),
+                city: faker.address.city()
             }
         }
-        await request(app)
+        const res = await request(app)
             .post(`/users`)
             .send(fakeUser)
-        const checkUser = await User.findOne({'email': fakeUser.email})
+        const checkUser = await User.findById(res.body._id)
         expect(checkUser).toHaveProperty(['address'])
         expect(checkUser.address.street).toBe(fakeUser.address.street)
         expect(checkUser.address.city).toBe(fakeUser.address.city)
