@@ -1,23 +1,23 @@
+ 
 const express = require("express");
 const router = express.Router();
-const low = require("lowdb");
-const FileSync = require("lowdb/adapters/FileSync");
-const adapter = new FileSync("data/db.json");
-const db = low(adapter);
-const {userValidationRules} = require('../lib/validation/userRules')
-const { validateInputs} = require('../middleware/validator')
+const { validateInputs } = require("../middleware/validator");
+const { userValidationRules } = require("../lib/validation/userRules");
+
 const {
   getUsers,
   getUser,
   updateUser,
   deleteUser,
-  addUser
+  addUser,
+  loginUser
 } = require("../controllers/usersController");
 
 router
   .route("/")
   .get(getUsers)
   .post(validateInputs(userValidationRules), addUser);
+
 
 router
   .route("/:id")

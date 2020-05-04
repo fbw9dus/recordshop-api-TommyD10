@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const bcrypt = require('bcrypt')
+const encryption = require('../lib/validation/encryption')
+
 
 const address = new Schema({
   street:{
@@ -25,11 +26,13 @@ const UserSchema = new Schema(
     },
     email: {
       type: String,
-      required: true
+      required: true,
+      unique:true
     },
     password: {
       type: String,
-      required: true
+      required: true,
+      select: false
     },
     address: address
   },
@@ -52,7 +55,14 @@ UserSchema.virtual("fullName").get(function() {
 UserSchema.pre("save", async function(next) {
   if (!this.isModified("password")) return next();
 
-  this.password = await bcrypt.hash(this.password, 10);
+  this.password = await encryption.encrypt(this.password);
+  next();
+});
+
+UserSchema.pre("findOneAndUpdate", async function(next) {
+  if (!this.getUpdate().password) return next();
+
+  this._update.password = await encryption.encrypt(this._update.password);
   next();
 });
 

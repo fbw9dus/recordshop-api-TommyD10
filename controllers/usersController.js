@@ -1,6 +1,7 @@
 var Users = require('../models/User');
 var {validationResult} = require('express-validator')
 
+
 exports.getUsers = async (req, res, next) => {
   // Schreib hier code um alle Kunden aus der users-Collection zu holen
   var users = await Users.find()
